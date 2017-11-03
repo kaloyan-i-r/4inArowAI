@@ -14,10 +14,8 @@ def printBoard(board):
         for j in range(W):
             value = board[0,H*W-(W-j + i*W)]
             # print(f'value: {H*W-(W-j + i*W)}')
-            if 0 <= value:
-                print(f'  {int(value)}', end="")
-            else:
-                print(f' {int(value)}', end="")
+            symbol = symbols[str(int(value))]
+            print(f'  {symbol}', end="")
         print('')
     print('-----------------------')
 
@@ -31,14 +29,14 @@ def generateBoard(moves):
         possible_moves = getPossibleMoves(board)
         not_winning_moves = filterWinningMoves(player,board,possible_moves)
         weighted_moves = evaluateMoves(board,not_winning_moves,player)
-        print(f'player: {player} {weighted_moves}')
+        print(f'player: {symbols[str(int(player))]} {weighted_moves}')
         printBoard(board)
         if len(not_winning_moves) > 0:
             move = sample(not_winning_moves,1)[0]
             applyMove(board,move,player)
         else:
             print(f'{i} p/nw : {not_winning_moves}/{possible_moves}')
-            printBoard(board)
+            # printBoard(board)
             return None
         # printBoard(board)
     return board
@@ -93,15 +91,18 @@ def cost(board,move,player):
 
 def generateDiagonals(board,move):
     position = findPosition(board,move)
+    x,y = move % 7,move // 7
     correct_neighbours = []
     for diagonal in diagonals:
         temp_neighbour = []
-        for diag_delta in diagonal:
-            diag_pos = position + diag_delta
-            if diag_pos < 0 or 41 < diag_pos:
+        for x_delta,y_delta in diagonal:
+            temp_x,temp_y = x_delta + x, y_delta +y
+            if temp_x < 0 or W <= temp_y:
+                temp_neighbour.append(-2)
+            elif temp_y < 0 or H <= temp_y:
                 temp_neighbour.append(-2)
             else:
-                temp_neighbour.append(board[0,diag_pos])
+                temp_neighbour.append(board[0,int(temp_x+temp_y*W)])
         correct_neighbours.append(temp_neighbour)
     return correct_neighbours
 
