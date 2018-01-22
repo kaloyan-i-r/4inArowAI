@@ -19,7 +19,7 @@ def savedata(board,move):
     pickle.dump(training_data,open(save_file_name,'wb'))
 
 def main():
-    playboard = generate_board(0)
+    playboard = generate_board(0)[0]
     print_board(playboard)
     player = 0
     for i in range(48):
@@ -30,10 +30,10 @@ def main():
         else:
             player = -1
             # move = random.randint(0,6)
-            # move = ai.predict(playboard)
-            weighted_moves = get_weighted_moves(playboard)
-            print(weighted_moves)
-            move = best_move(weighted_moves)
+            move = ai.predict(playboard)
+            # weighted_moves = get_weighted_moves(playboard)
+            # print(weighted_moves)
+            # move = best_move(weighted_moves)
             # move = ait.predict(playboard)
             print(f'ai move: {move}')
         if check_if_winning_move(player,playboard,move):

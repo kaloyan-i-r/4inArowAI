@@ -1,6 +1,7 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 import pickle
+import numpy as np
 
 # Initialize ANN classifier
 # Number of samples in test set: 360 
@@ -11,7 +12,11 @@ with open("trained_data",'rb') as saved_file:
 # predict results from the test data
 
 def predict(board):
-    return mlp.predict(board)[0]
+    board = np.array([board])
+    print(board)
+    prediction = mlp.predict(board)[0]
+    # print(prediction)
+    return prediction
 
 
 def main():
