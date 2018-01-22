@@ -181,6 +181,10 @@ def generate_diagonals(board,move):
 def get_player(move_number):
     return -1 if move_number % 2 == 1 else 1
 
+def best_move(moves):
+    max_weight = max(moves.values())
+    return list({k: v for k, v in moves.items() if v == max_weight}.keys())[0]
+
 def vectorized_moves(moves):
     max_weight = max(moves.values())
     print(max_weight)
@@ -191,7 +195,6 @@ def vectorized_moves(moves):
         else:
             vect_moves.append(0)
     return numpy.array(vect_moves)
-
 
 def generate_boards(moves):
     boards = {}
@@ -228,14 +231,20 @@ def generate_boards(moves):
 
 def main():
     gen_boards = generate_boards(36)
-    training_set = []
+    training_set = {}
+    boards = []
+    moves = []
     for str_board in gen_boards:
         board = gen_boards[str_board]
         weighted_moves = get_weighted_moves(board)
-        training_set.append([board,vectorized_moves(weighted_moves)])
-        print(weighted_moves)
+        moves.append(best_move(weighted_moves))
+        boards.append(board[0])
         print_board(board)
+        # print(board[0])
     print(len(training_set))
+    training_set['data'] = numpy.array(boards)
+    training_set['target'] = numpy.array(moves)
+    print(training_set)
     import pickle
     with open("training_set_data",'wb') as set_file:
         pickle.dump(training_set,set_file)

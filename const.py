@@ -61,30 +61,40 @@ def calculateOptions():
                                 continue
                             elif re.match('[AB_]{1,2}X.*',str_val) or re.match('.*X[AB_]{1,2}$',str_val):
                                 continue
-                            elif re.match('.+A{2}.+', str_val) or re.match('AA_.*', str_val) or re.match('.*_AA', str_val):
-                                str_weight = 3#50
-                            elif re.match('.+B{2}.+', str_val) or re.match('BB_.*', str_val) or re.match('.*_BB', str_val):
-                                str_weight = 4#40/12,5
+                            elif re.match('.*_A{2}_.*', str_val):
+                                str_weight = 3  # 50
+                            elif re.match('.*_B{2}_.*', str_val):
+                                str_weight = 4
+                            elif re.match('AA_.*', str_val) or re.match('.*_AA$', str_val):
+                                str_weight = 5  # 50
+                            elif re.match('BB_.*', str_val) or re.match('.*_BB$', str_val):
+                                str_weight = 6  # 50
+                            elif re.match('^.AA', str_val) or re.match('.*AA.$', str_val):
+                                str_weight = 7  # 40/12,5
+                            elif re.match('.*A{2}.*', str_val):
+                                str_weight = 8  # 40/12,5
+                            elif re.match('.*B{2}.*', str_val) or re.match('BB_.*', str_val) or re.match('.*_BB$', str_val):
+                                str_weight = 9  # 40/12,5
                             elif re.match('.*X[AB_]{2}X.*', str_val):
-                                str_weight = 9#1
+                                str_weight = 14#1
                             elif re.match('.*X_{3,4}X.*', str_val):
-                                str_weight = 7#15
+                                str_weight = 12#15
                             elif re.match('______', str_val):
-                                str_weight = 7#40 ?????
+                                str_weight = 12#40 ?????
                             elif re.match('.*A[_]{3}.*', str_val) or re.match('.*[_]{3}A.*', str_val):
-                                str_weight = 5#30/6,5
+                                str_weight = 10#30/6,5
                             elif re.match('.*[A_]{3,4}.*', str_val) or re.match('.*[A_]{3,4}.*', str_val):
-                                str_weight = 5#30/6.5
+                                str_weight = 10#30/6.5
                             elif re.match('.*BABAB.*', str_val) or re.match('.*ABABB.*', str_val) or re.match('.*BBABA.*', str_val):
-                                str_weight = 9#1
+                                str_weight = 14#1
                             elif re.match('.*B_B.*', str_val):
-                                str_weight = 5#25/
+                                str_weight = 10#25/
                             elif re.match('.*B__.*', str_val) or re.match('.*__B.*',str_val) or  re.match('.*_B_.*',str_val):
-                                str_weight = 8#10/
+                                str_weight = 13#10/
                             elif re.match('.*X[AB_]{3}X.*', str_val):
-                                str_weight = 9#1
+                                str_weight = 14#1
                             else:
-                                str_weight = 9#1
+                                str_weight = 14#1
                                 pass
                             temp_optins[str_val] = win_weight/(weight_divider**str_weight)
     return temp_optins
